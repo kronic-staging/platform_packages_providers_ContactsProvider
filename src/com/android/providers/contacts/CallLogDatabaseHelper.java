@@ -153,6 +153,10 @@ public class CallLogDatabaseHelper {
                     Voicemails.STATE + " INTEGER," +
                     Voicemails.DIRTY + " INTEGER NOT NULL DEFAULT 0," +
                     Voicemails.DELETED + " INTEGER NOT NULL DEFAULT 0," +
+                    Voicemails.BACKED_UP + " INTEGER NOT NULL DEFAULT 0," +
+                    Voicemails.RESTORED + " INTEGER NOT NULL DEFAULT 0," +
+                    Voicemails.ARCHIVED + " INTEGER NOT NULL DEFAULT 0," +
+                    Voicemails.IS_OMTP_VOICEMAIL + " INTEGER NOT NULL DEFAULT 0" +
                     CALLS_OPERATOR + " TEXT" +
                     ");");
 
@@ -238,10 +242,15 @@ public class CallLogDatabaseHelper {
                 + " TEXT;");
     }
 
+    /**
+     * Add {@link Voicemails.BACKED_UP} {@link Voicemails.ARCHIVE} {@link
+     * Voicemails.IS_OMTP_VOICEMAIL} column to the CallLog database.
+     */
     private void upgradeToVersion4(SQLiteDatabase db) {
-        // Intentionally empty. Lineage (pre cafrebase) had the version 4 schema, but
-        // never updated the database's user_version, so technically database version 3
-        // included what used to be here. Shit hax.
+        db.execSQL("ALTER TABLE calls ADD backed_up INTEGER NOT NULL DEFAULT 0");
+        db.execSQL("ALTER TABLE calls ADD restored INTEGER NOT NULL DEFAULT 0");
+        db.execSQL("ALTER TABLE calls ADD archived INTEGER NOT NULL DEFAULT 0");
+        db.execSQL("ALTER TABLE calls ADD is_omtp_voicemail INTEGER NOT NULL DEFAULT 0");
     }
 
     /**
