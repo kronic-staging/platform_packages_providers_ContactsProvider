@@ -242,11 +242,15 @@ public class CallLogDatabaseHelper {
                 + " TEXT;");
     }
 
+    private void upgradeToVersion4(SQLiteDatabase db) {
+        // Empty due to CAF changes
+    }
+
     /**
      * Add {@link Voicemails.BACKED_UP} {@link Voicemails.ARCHIVE} {@link
      * Voicemails.IS_OMTP_VOICEMAIL} column to the CallLog database.
      */
-    private void upgradeToVersion4(SQLiteDatabase db) {
+    private void upgradeToVersion5(SQLiteDatabase db) {
         db.execSQL("ALTER TABLE calls ADD backed_up INTEGER NOT NULL DEFAULT 0");
         db.execSQL("ALTER TABLE calls ADD restored INTEGER NOT NULL DEFAULT 0");
         db.execSQL("ALTER TABLE calls ADD archived INTEGER NOT NULL DEFAULT 0");
